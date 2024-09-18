@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class LUser {
+public class LSUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

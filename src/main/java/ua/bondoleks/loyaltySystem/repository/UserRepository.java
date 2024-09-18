@@ -1,13 +1,15 @@
 package ua.bondoleks.loyaltySystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ua.bondoleks.loyaltySystem.entity.LUser;
+import ua.bondoleks.loyaltySystem.entity.LSUser;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<LUser, Long> {
+public interface UserRepository extends JpaRepository<LSUser, Long> {
 
-    Optional<LUser> findByPhoneNumber(String phoneNumber);
+    Optional<LSUser> findByPhoneNumber(String phoneNumber);
 
-    Optional<LUser> deleteByPhoneNumber(String phoneNumber);
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    Optional<LSUser> deleteByPhoneNumber(String phoneNumber);
 }

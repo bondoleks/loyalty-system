@@ -6,7 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
 
     <changeSet id="1" author="Bondarchuk_Oleksandr">
-        <createTable tableName="luser">
+        <createTable tableName="lsuser">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -54,7 +54,7 @@
         <addForeignKeyConstraint baseTableName="purchase"
                                  baseColumnNames="user_id"
                                  constraintName="fk_purchase_user"
-                                 referencedTableName="luser"
+                                 referencedTableName="lsuser"
                                  referencedColumnNames="id"/>
     </changeSet>
 

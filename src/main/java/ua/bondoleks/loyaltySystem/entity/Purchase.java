@@ -18,7 +18,7 @@ public class Purchase {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private LUser user;
+    private LSUser user;
 
     @ElementCollection
     @CollectionTable(name = "purchase_items", joinColumns = @JoinColumn(name = "purchase_id"))

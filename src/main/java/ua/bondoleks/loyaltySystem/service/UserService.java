@@ -1,7 +1,8 @@
 package ua.bondoleks.loyaltySystem.service;
 
 import org.springframework.stereotype.Service;
-import ua.bondoleks.loyaltySystem.entity.LUser;
+import ua.bondoleks.loyaltySystem.entity.LSUser;
+import ua.bondoleks.loyaltySystem.exception.LSUserNotFoundException;
 import ua.bondoleks.loyaltySystem.repository.UserRepository;
 
 import java.util.List;
@@ -15,20 +16,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<LUser> getAllUsers() {
+    public List<LSUser> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public LUser getUserByPhoneNumber(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("User not found"));
+    public LSUser getUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new LSUserNotFoundException("User with phone number " + phoneNumber + " not found"));
     }
 
-    public void createUser(LUser user) {
+    public void createUser(LSUser user) {
         userRepository.save(user);
     }
 
-    public void updateUser(String phoneNumber, LUser userDetails) {
-        LUser user = getUserByPhoneNumber(phoneNumber);
+    public void updateUser(String phoneNumber, LSUser userDetails) {
+        LSUser user = getUserByPhoneNumber(phoneNumber);
         user.setEmail(userDetails.getEmail());
         user.setRole(userDetails.getRole());
         user.setBalance(userDetails.getBalance());
@@ -36,6 +38,9 @@ public class UserService {
     }
 
     public void deleteUser(String phoneNumber) {
+        if (!userRepository.existsByPhoneNumber(phoneNumber)) {
+            throw new LSUserNotFoundException("User with phone number " + phoneNumber + " not found");
+        }
         userRepository.deleteByPhoneNumber(phoneNumber);
     }
 }
