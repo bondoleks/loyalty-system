@@ -1,5 +1,8 @@
 package ua.bondoleks.loyaltySystem.controller.admin;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +22,23 @@ public class PurchaseController {
     }
 
     @GetMapping
-    public String getAllPurchases(Model model) {
-        List<Purchase> purchases = purchaseService.getAllPurchases();
-        model.addAttribute("purchases", purchases);
+    public String getAllPurchases(Model model,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Purchase> purchasePage = purchaseService.getAllPurchases(pageable);
+
+        model.addAttribute("purchasePage", purchasePage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", purchasePage.getTotalPages());
         return "purchases";
+    }
+
+    @GetMapping("/{id}")
+    public String viewPurchase(@PathVariable Long id, Model model) {
+        Purchase purchase = purchaseService.getPurchaseById(id);
+        model.addAttribute("purchase", purchase);
+        return "view_purchase";
     }
 
     @GetMapping("/new")

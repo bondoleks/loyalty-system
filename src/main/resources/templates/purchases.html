@@ -22,32 +22,32 @@
     <table>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Користувач</th>
             <th>Сума</th>
-            <th>Бонуси</th>
-            <th>Повернуто</th>
-            <th>Тип магазину</th>
+            <th>Номер телефону</th>
             <th>Дата створення</th>
             <th>Операції</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="purchase : ${purchases}">
-            <td th:text="${purchase.id}"></td>
-            <td th:text="${purchase.user.phoneNumber}"></td>
+        <tr th:each="purchase : ${purchasePage.content}">
             <td th:text="${purchase.totalAmount}"></td>
-            <td th:text="${purchase.bonusAmount}"></td>
-            <td th:text="${purchase.returned}"></td>
-            <td th:text="${purchase.storeType}"></td>
+            <td th:text="${purchase.user.phoneNumber}"></td>
             <td th:text="${purchase.createdDate}"></td>
             <td>
-                <a th:href="@{'/purchases/edit/' + ${purchase.id}}">Редагувати</a>
-                <a th:href="@{'/purchases/delete/' + ${purchase.id}}" onclick="return confirm('Ви впевнені, що хочете видалити цю покупку?');">Видалити</a>
+                <a th:href="@{'/purchases/' + ${purchase.id}}">Переглянути</a>
             </td>
         </tr>
         </tbody>
     </table>
+    <div>
+        <span th:text="'Page ' + ${currentPage + 1} + ' of ' + ${totalPages}"></span>
+        <div th:if="${currentPage > 0}">
+            <a th:href="@{/purchases(page=${currentPage - 1})}">Попередня</a>
+        </div>
+        <div th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/purchases(page=${currentPage + 1})}">Наступна</a>
+        </div>
+    </div>
     <a href="/purchases/new">Додати нову покупку</a>
 </main>
 

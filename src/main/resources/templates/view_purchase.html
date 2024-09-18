@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Деталі покупки</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Деталі покупки</h1>
+<p>Номер телефону: <span th:text="${purchase.user.phoneNumber}"></span></p>
+<p>Сума: <span th:text="${purchase.totalAmount}"></span></p>
+<p>Бонуси: <span th:text="${purchase.bonusAmount}"></span></p>
+<p>Повернуто: <span th:text="${purchase.returned}"></span></p>
+<p>Тип магазину: <span th:text="${purchase.storeType}"></span></p>
+<p>Дата створення: <span th:text="${purchase.createdDate}"></span></p>
+
+<p>Товари:</p>
+<ul>
+    <li th:if="${#lists.isEmpty(purchase.items)}">Немає товарів у покупці</li>
+    <li th:each="item : ${purchase.items}">
+        <p>Артикул: <span th:text="${item.article}"></span></p>
+        <p>Ціна: <span th:text="${item.price}"></span></p>
+    </li>
+</ul>
+
+<a href="/purchases">Назад до списку покупок</a>
+</body>
+</html>

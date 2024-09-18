@@ -15,14 +15,11 @@
     <input type="number" id="totalAmount" th:field="*{totalAmount}" required>
     <br>
 
-    <label for="bonusAmount">Bonus Amount:</label>
-    <input type="number" id="bonusAmount" th:field="*{bonusAmount}" required>
-    <br>
-
     <label for="storeType">Store Type:</label>
     <select id="storeType" th:field="*{storeType}">
         <option value="ONLINE">ONLINE</option>
-        <option value="OFFLINE">OFFLINE</option>
+        <option value="OCEAN_PLAZA">OCEAN PLAZA</option>
+        <option value="RIVER_MALL">RIVER MALL</option>
     </select>
     <br>
 
@@ -30,8 +27,53 @@
     <input type="checkbox" id="returned" th:field="*{returned}">
     <br>
 
+    <div id="items-container">
+        <div th:each="item, stat : *{items}">
+            <label for="article">Article:</label>
+            <input type="text" th:field="*{items[__${stat.index}__].article}" placeholder="Article" required>
+            <br>
+
+            <label for="photoUrl">Photo URL:</label>
+            <input type="text" th:field="*{items[__${stat.index}__].photoUrl}" placeholder="Photo URL" required>
+            <br>
+
+            <label for="price">Price:</label>
+            <input type="number" th:field="*{items[__${stat.index}__].price}" placeholder="Price" required>
+            <br>
+        </div>
+    </div>
+
+    <button type="button" onclick="addItem()">Add Item</button>
+    <br>
+
     <button type="submit">Create Purchase</button>
 </form>
+
 <a href="/purchases">Back to Purchases List</a>
+
+<script>
+    function addItem() {
+        let container = document.getElementById('items-container');
+        let index = container.children.length;
+
+        let newItem = `
+        <div>
+            <label for="article">Article:</label>
+            <input type="text" name="items[${index}].article" placeholder="Article" required>
+            <br>
+
+            <label for="photoUrl">Photo URL:</label>
+            <input type="text" name="items[${index}].photoUrl" placeholder="Photo URL" required>
+            <br>
+
+            <label for="price">Price:</label>
+            <input type="number" name="items[${index}].price" placeholder="Price" required>
+            <br>
+        </div>`;
+
+        container.insertAdjacentHTML('beforeend', newItem);
+    }
+</script>
+
 </body>
 </html>

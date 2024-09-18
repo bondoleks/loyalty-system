@@ -1,9 +1,13 @@
 package ua.bondoleks.loyaltySystem.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ua.bondoleks.loyaltySystem.entity.LSUser;
 import ua.bondoleks.loyaltySystem.entity.Purchase;
 import ua.bondoleks.loyaltySystem.exception.PurchaseNotFoundException;
 import ua.bondoleks.loyaltySystem.repository.PurchaseRepository;
+import ua.bondoleks.loyaltySystem.repository.UserRepository;
 import ua.bondoleks.loyaltySystem.service.PurchaseService;
 
 import java.util.List;
@@ -12,14 +16,16 @@ import java.util.List;
 public class PurchaseServiceImpl implements PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
+    private final UserRepository userRepository;
 
-    public PurchaseServiceImpl(PurchaseRepository purchaseRepository) {
+    public PurchaseServiceImpl(PurchaseRepository purchaseRepository, UserRepository userRepository) {
         this.purchaseRepository = purchaseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public List<Purchase> getAllPurchases() {
-        return purchaseRepository.findAll();
+    public Page<Purchase> getAllPurchases(Pageable pageable) {
+        return purchaseRepository.findAll(pageable);
     }
 
     @Override
@@ -30,6 +36,22 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public void createPurchase(Purchase purchase) {
+        LSUser user = purchase.getUser();
+        LSUser existingUser = userRepository.findByPhoneNumber(user.getPhoneNumber()).orElse(null);
+
+        if (existingUser == null) {
+            user.setBalance((int) (purchase.getTotalAmount() * 0.05)); // 5% бонусів
+            userRepository.save(user);
+        } else {
+            existingUser.setBalance(existingUser.getBalance() + (int) (purchase.getTotalAmount() * 0.05));
+            purchase.setUser(existingUser);
+            userRepository.save(existingUser);
+        }
+
+        if (purchase.isReturned()) {
+            user.setBalance(user.getBalance() - (int) (purchase.getTotalAmount() * 0.05));
+        }
+
         purchaseRepository.save(purchase);
     }
 
