@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Юзери</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Юзери</h1>
+    <nav>
+        <ul>
+            <li><a href="#" th:href="@{/}">Головна</a></li>
+            <li><a href="#" th:href="@{/purchases}">Покупки</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h2>Список юзерів</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Телефон</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Баланс</th>
+            <th>Дата реєстрації</th>
+            <th>Операції</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td th:text="${user.balance}"></td>
+            <td th:text="${user.registrationDate}"></td>
+            <td>
+                <a th:href="@{'/users/edit/' + ${user.id}}">Редагувати</a>
+                <a th:href="@{'/users/delete/' + ${user.id}}" onclick="return confirm('Ви впевнені, що хочете видалити цього користувача?');">Видалити</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/users/new">Додати нового користувача</a>
+</main>
+
+<footer>
+    <p>&copy; 2024 Лояльність Система</p>
+</footer>
+</body>
+</html>

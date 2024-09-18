@@ -10,12 +10,15 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class User {
+public class LUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -25,5 +28,4 @@ public class User {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime registrationDate = LocalDateTime.now();
-
 }

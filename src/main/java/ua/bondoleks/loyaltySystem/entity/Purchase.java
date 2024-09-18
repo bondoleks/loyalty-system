@@ -17,12 +17,12 @@ public class Purchase {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_phone_number", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private LUser user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "purchase_id")
-    private List<Product> products;
+    @ElementCollection
+    @CollectionTable(name = "purchase_items", joinColumns = @JoinColumn(name = "purchase_id"))
+    private List<Item> items;
 
     private double totalAmount;
 

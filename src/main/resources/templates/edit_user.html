@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit User</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Edit User</h1>
+<form action="#" th:action="@{/users/update/{phoneNumber}(phoneNumber=${user.phoneNumber})}" th:object="${user}" method="post">
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" th:field="*{phoneNumber}" readonly>
+    <br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{email}" required>
+    <br>
+
+    <label for="balance">Balance:</label>
+    <input type="number" id="balance" th:field="*{balance}" required>
+    <br>
+
+    <label for="role">Role:</label>
+    <select id="role" th:field="*{role}">
+        <option value="USER">USER</option>
+        <option value="ADMIN">ADMIN</option>
+    </select>
+    <br>
+
+    <button type="submit">Update User</button>
+</form>
+<a href="/users">Back to User List</a>
+</body>
+</html>

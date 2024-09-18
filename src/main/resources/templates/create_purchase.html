@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Purchase</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Create New Purchase</h1>
+<form action="#" th:action="@{/purchases}" th:object="${purchase}" method="post">
+    <label for="phoneNumber">User Phone Number:</label>
+    <input type="text" id="phoneNumber" th:field="*{user.phoneNumber}" required>
+    <br>
+
+    <label for="totalAmount">Total Amount:</label>
+    <input type="number" id="totalAmount" th:field="*{totalAmount}" required>
+    <br>
+
+    <label for="bonusAmount">Bonus Amount:</label>
+    <input type="number" id="bonusAmount" th:field="*{bonusAmount}" required>
+    <br>
+
+    <label for="storeType">Store Type:</label>
+    <select id="storeType" th:field="*{storeType}">
+        <option value="ONLINE">ONLINE</option>
+        <option value="OFFLINE">OFFLINE</option>
+    </select>
+    <br>
+
+    <label for="returned">Returned:</label>
+    <input type="checkbox" id="returned" th:field="*{returned}">
+    <br>
+
+    <button type="submit">Create Purchase</button>
+</form>
+<a href="/purchases">Back to Purchases List</a>
+</body>
+</html>
